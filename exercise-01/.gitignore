@@ -1,0 +1,11 @@
+# Dependências
+node_modules/
+dist/
+
+# Configurações
+.DS_Store
+.env
+
+# Arquivos do IDE
+.vscode/
+.idea/
