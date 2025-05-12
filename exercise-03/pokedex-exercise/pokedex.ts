@@ -1,6 +1,3 @@
-// Verifique se está usando Node.js 18+ (que tem fetch nativo)
-// Se não estiver, descomente a linha abaixo:
-// import fetch from 'node-fetch';
 
 interface Pokemon {
   name: string;
@@ -13,16 +10,25 @@ interface Pokemon {
   }[];
 }
 
+// Capitaliza strings para exibição 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/**
+ * Busca dados de um Pokémon na API e exibe:
+ * - Nome capitalizado
+ * - Altura em metros
+ * - Peso em kg 
+ * - Tipos formatados
+ */
 
 async function fetchPokemon(pokemonIdOrName: string): Promise<void> {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIdOrName.toLowerCase()}`);
     
     if (!response.ok) {
-      console.log(response.status === 404 ? '❌ Pokémon não encontrado!' : '⚠️ Erro na API');
+      console.log(response.status === 404 ? 'Pokémon não encontrado!' : 'Erro na API');
       return;
     }
 
@@ -34,14 +40,16 @@ async function fetchPokemon(pokemonIdOrName: string): Promise<void> {
     console.log(`${capitalize(data.name)} – ${height}m – ${weight}kg – ${types}`);
     
   } catch (error) {
-    console.log('⚠️ Erro de rede. Tente novamente.');
+    console.log('Erro de rede. Tente novamente.');
   }
 }
 
+// Valida argumentos da CLI
 if (process.argv.length < 3) {
   console.log('Uso: npx ts-node pokedex.ts <nome-ou-id>');
   console.log('Exemplo: npx ts-node pokedex.ts pikachu');
   process.exit(1);
 }
 
+// Executa a busca
 fetchPokemon(process.argv[2]);
